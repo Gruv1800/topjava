@@ -35,7 +35,7 @@ public class MealsUtil {
         Map<LocalDate, Integer> totalCaloriesByDate = mealList.stream()
                 .collect(Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories)));
         return mealList.stream()
-                .map(meal -> new MealDTO(meal.getDateTime(), meal.getDescription(), meal.getCalories(),
+                .map(meal -> new MealDTO(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(),
                         totalCaloriesByDate.get(meal.getDate()) > caloriesThreshold))
                 .collect(Collectors.toList());
     }

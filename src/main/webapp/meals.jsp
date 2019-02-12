@@ -9,6 +9,7 @@
 <table border=1>
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Date</th>
                 <th>Description</th>
                 <th>Calories</th>
@@ -20,9 +21,10 @@
                     <c:set var="bColor" value="#FF0000"/>
                 </c:if>
                 <c:if test="${meal.excess=='false'}">
-                    <c:set var="bColor" value="##008000"/>
+                    <c:set var="bColor" value="#FFFF00"/>
                 </c:if>
                 <tr bgcolor="${bColor}">
+                    <td><c:out value="${meal.id}"/></td>
                     <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both" />
                     <td><fmt:formatDate pattern="yyyy-MMM-dd HH:mm" value="${parsedDate}" /></td>
                     <td><c:out value="${meal.description}" /></td>
