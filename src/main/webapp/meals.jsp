@@ -13,6 +13,7 @@
                 <th>Date</th>
                 <th>Description</th>
                 <th>Calories</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +30,13 @@
                     <td><fmt:formatDate pattern="yyyy-MMM-dd HH:mm" value="${parsedDate}" /></td>
                     <td><c:out value="${meal.description}" /></td>
                     <td><c:out value="${meal.calories}" /></td>
+                    <td><a href="meals?action=upgrade&mealId=<c:out value="${meal.id}"/>">Upgrade</a></td>
+                    <td><a href="meals?action=delete&mealId=<c:out value="${meal.id}"/>">Delete</a></td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
+    <p><a href="meals?action=create">Add Meal</a></p>
 <h3><a href="index.html">Home</a></h3>
 </body>
 </html>
