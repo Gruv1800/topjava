@@ -23,13 +23,13 @@ public class MealRepository implements Repository<Meal> {
     }
 
     @Override
-    public Meal findById(Number id) {
-        return MealData.getMeals().stream().filter(meal -> meal.getId()==(int)id).findFirst().get();
+    public Meal findById(int id) {
+        return MealData.getMeals().stream().filter(meal -> meal.getId()==id).findFirst().get();
     }
 
     @Override
-    public void delete(Meal item) {
-        MealData.getMeals().remove(item);
+    public void deleteById(int id) {
+        MealData.getMeals().remove(findById(id));
     }
 
     @Override

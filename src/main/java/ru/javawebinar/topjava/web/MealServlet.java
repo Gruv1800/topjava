@@ -24,7 +24,8 @@ public class MealServlet extends HttpServlet {
     private static final String UPGRADE_ACTION = "upgrade";
     private static final String CREATE_UPGRADE_MEAL_PATH = "/mealCreateUpgrade.jsp";
     private static final String MEAL_LIST_PATH = "/meals.jsp";
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
 
     private Repository<Meal> mealRepository;
 
@@ -45,15 +46,15 @@ public class MealServlet extends HttpServlet {
             switch (action){
                 case CREATE_ACTION:
                     requestDispatcher = req.getRequestDispatcher(CREATE_UPGRADE_MEAL_PATH);
-//                    mealRepository.create(new Meal(
-//                            MealRepository.mealCounter++,
-//                            LocalDateTime.parse(req.getParameter("dateTime"), formatter),
-//                            req.getParameter("description"), Integer.parseInt(req.getParameter("calories"))));
                     break;
                 case UPGRADE_ACTION:
                     requestDispatcher = req.getRequestDispatcher(CREATE_UPGRADE_MEAL_PATH);
                     break;
                 case DELETE_ACTION:
+                    requestDispatcher = req.getRequestDispatcher(MEAL_LIST_PATH);
+                    int mealId = Integer.parseInt(req.getParameter("mealId"));
+                    mealRepository.deleteById(mealId);
+                    req.setAttribute("meals", MealsUtil.convertMealsToDto(mealRepository.getAll(), CALORIES_THRESHOLD));
                     break;
                 default:
                     break;
@@ -65,6 +66,11 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        mealRepository.create(new Meal(
+                MealRepository.mealCounter++,
+                LocalDateTime.parse(req.getParameter("dateTime"), formatter),
+                req.getParameter("description"), Integer.parseInt(req.getParameter("calories"))));
+        req.setAttribute("meals", MealsUtil.convertMealsToDto(mealRepository.getAll(), CALORIES_THRESHOLD));
+        req.getRequestDispatcher(MEAL_LIST_PATH).forward(req, resp);
     }
 }
