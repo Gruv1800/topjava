@@ -36,4 +36,12 @@ public class Meal {
     public int getCalories() {
         return calories;
     }
+
+    public LocalDate getDate() {
+        return dateTime.toLocalDate();
+    }
+
+    public LocalTime getTime() {
+        return dateTime.toLocalTime();
+    }
 }
