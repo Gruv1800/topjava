@@ -9,6 +9,7 @@ public interface MealService {
     Meal create(Meal meal);
     void delete(int id) throws NotFoundException;
     void upgrade(Meal meal);
+    Meal getById(int id);
     List<Meal> getByUser(int userId);
     List<Meal> getAll();
 }

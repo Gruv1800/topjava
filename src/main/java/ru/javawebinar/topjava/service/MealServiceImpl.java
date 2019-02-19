@@ -43,4 +43,9 @@ public class MealServiceImpl implements MealService {
     public List<Meal> getAll() {
         return repository.getAll();
     }
+
+    @Override
+    public Meal getById(int id) {
+        return repository.get(id);
+    }
 }

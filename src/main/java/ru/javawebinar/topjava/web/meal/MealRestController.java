@@ -30,6 +30,9 @@ public class MealRestController {
     public void upgrade(Meal meal) {
         service.upgrade(meal);
     }
+    public Meal getById(int id) {
+        return service.getById(id);
+    }
     public List<MealTo> getByUser() {
         return MealsUtil.getWithExcess(service.getByUser(authUserId()), authUserCaloriesPerDay());
     }
