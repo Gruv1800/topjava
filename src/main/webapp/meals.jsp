@@ -22,6 +22,39 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
+    <form>
+        <input type="text" name="action" value="filter" hidden>
+        <table>
+            <thead>
+            <tr>
+                <th>From date</th>
+                <th>To date</th>
+                <th>From time</th>
+                <th>To time</th>
+            </tr>
+            </thead>
+            <tr>
+                <th>
+                    <input type="date" name="dateFrom" size="20">
+                </th>
+                <th>
+                    <input type="date" name="dateTo" size="20">
+                </th>
+                <th>
+                    <input type="time" name="timeFrom" size="10">
+                </th>
+                <th>
+                    <input type="time" name="timeTo" size="10">
+                </th>
+
+            </tr>
+        </table>
+        <div style="display: inline-block">
+            <button type="submit">Filter</button>
+            <button type="reset">Clean</button>
+        </div>
+
+    </form>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>

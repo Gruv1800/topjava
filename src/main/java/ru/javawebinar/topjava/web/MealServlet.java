@@ -8,6 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.inmemory.InMemoryMealRepositoryImpl;
+import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -30,9 +31,10 @@ public class MealServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        repository = new InMemoryMealRepositoryImpl();
+       // repository = new InMemoryMealRepositoryImpl();
         try (ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/spring/spring-app.xml")) {
            mealController = context.getBean(MealRestController.class);
+           repository = context.getBean(InMemoryMealRepositoryImpl.class);
         }
 
     }
@@ -66,8 +68,12 @@ public class MealServlet extends HttpServlet {
                 break;
             case "create":
             case "update":
-                final Meal meal = "create".equals(action) ?
-                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000, SecurityUtil.authUserId()) :
+                final MealTo meal = "create".equals(action) ?
+                        MealsUtil.createWithExcess(
+                                new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES),
+                                        "",
+                                        1000,
+                                        SecurityUtil.authUserId()), false) :
                         mealController.getById(getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);

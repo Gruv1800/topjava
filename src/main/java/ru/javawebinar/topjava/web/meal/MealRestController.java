@@ -21,8 +21,8 @@ public class MealRestController {
     @Autowired
     private MealService service;
 
-    public Meal create(Meal meal) {
-        return service.create(meal);
+    public MealTo create(Meal meal) {
+        return MealsUtil.createWithExcess(service.create(meal), false);
     }
     public void delete(int id) {
         service.delete(id);
@@ -30,8 +30,8 @@ public class MealRestController {
     public void upgrade(Meal meal) {
         service.upgrade(meal);
     }
-    public Meal getById(int id) {
-        return service.getById(id);
+    public MealTo getById(int id) {
+        return MealsUtil.createWithExcess(service.getById(id), false);
     }
     public List<MealTo> getByUser() {
         return MealsUtil.getWithExcess(service.getByUser(authUserId()), authUserCaloriesPerDay());
