@@ -23,3 +23,11 @@ CREATE TABLE user_roles
   CONSTRAINT user_roles_idx UNIQUE (user_id, role),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
+
+CREATE TABLE meals
+(
+  id INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  dateTime          TIMESTAMP DEFAULT now()    NOT NULL,
+  description       VARCHAR                    NOT NULL,
+  calories          INTEGER                    NOT NULL
+);
