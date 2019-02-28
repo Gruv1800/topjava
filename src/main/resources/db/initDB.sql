@@ -34,5 +34,3 @@ CREATE TABLE meals
   calories          INTEGER                    NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-
-UPDATE meals SET user_id:user_id, description:description, calories:calories WHERE id=:id

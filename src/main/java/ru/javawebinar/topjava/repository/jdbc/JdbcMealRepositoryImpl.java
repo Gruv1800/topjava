@@ -12,12 +12,16 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 @Repository
 public class JdbcMealRepositoryImpl implements MealRepository {
 
     private static final BeanPropertyRowMapper<Meal> MEAL_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("YYYY-mm-dd hh:mm:ss");
+
     public static final String MEALS_TABLE_NAME = "meals";
 
     private final JdbcTemplate jdbcTemplate;
@@ -41,6 +45,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         MapSqlParameterSource mealMap = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
                 .addValue("description", meal.getDescription())
+                .addValue("dateTime", meal.getDateTime().format(DATE_TIME_FORMATTER))
                 .addValue("calories", meal.getCalories())
                 .addValue("user_id", userId);
 
@@ -75,6 +80,9 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return null;
+        List<Meal> result = jdbcTemplate.query("SELECT * from meals WHERE datetime>=? AND datetime<=? AND user_id=?",
+                MEAL_ROW_MAPPER, startDate.format(DATE_TIME_FORMATTER), endDate.format(DATE_TIME_FORMATTER), userId);
+        result.sort(Comparator.comparing(Meal::getDateTime));
+        return result;
     }
 }
