@@ -49,17 +49,33 @@ public class MealServiceTest {
 
     @Test
     public void getBetweenDateTimes() {
+        LocalDateTime startTime = LocalDateTime.of(2019, 2, 28, 1, 0, 0);
+        LocalDateTime endTime = LocalDateTime.of(2019, 2, 28, 20, 0, 0);
+        List<Meal> meals = service.getBetweenDateTimes(startTime, endTime, 100000);
+        assertThat(2).isEqualTo(meals.size());
+
     }
 
     @Test
     public void getAll() {
+        List<Meal> all = service.getAll(100000);
+        assertThat(4).isEqualTo(all.size());
     }
 
     @Test
     public void update() {
+        Meal upgradedMeal = new Meal(100002, LocalDateTime.now(), "Updated", 33333);
+        service.update(upgradedMeal, 100000);
+        Meal mealFromDb = service.get(100002, 100000);
+        assertThat(mealFromDb.getCalories()).isEqualTo(33333);
+        assertThat(mealFromDb.getDescription()).isEqualTo("Updated");
     }
 
     @Test
     public void create() {
+        Meal newMeal = new Meal(LocalDateTime.now(), "New Meal test", 55555);
+        Meal createdMeal = service.create(newMeal, 100001);
+        newMeal.setId(createdMeal.getId());
+        assertThat(newMeal).isEqualTo(createdMeal);
     }
 }
