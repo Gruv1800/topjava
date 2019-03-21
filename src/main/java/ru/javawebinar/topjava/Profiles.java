@@ -26,4 +26,23 @@ public class Profiles {
             }
         }
     }
+
+    public static String getActiveRepositoryProfile() {
+        try {
+            Class.forName("ru.javawebinar.topjava.repository.jdbc.JdbcUserRepositoryImpl");
+            return Profiles.JDBC;
+        } catch (ClassNotFoundException e1) {
+            try {
+                Class.forName("ru.javawebinar.topjava.repository.jpa.JpaUserRepositoryImpl");
+                return Profiles.JPA;
+            } catch (ClassNotFoundException e2) {
+                try {
+                    Class.forName("ru.javawebinar.topjava.repository.datajpa.DataJpaUserRepositoryImpl");
+                    return Profiles.DATAJPA;
+                } catch (ClassNotFoundException e3) {
+                    throw new IllegalArgumentException("Couldn't find repo implementation");
+                }
+            }
+        }
+    }
 }
