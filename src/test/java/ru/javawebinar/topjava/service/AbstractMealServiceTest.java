@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -18,6 +19,9 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected MealService service;
+
+    @Autowired
+    protected Environment environment;
 
     @Test
     public void delete() throws Exception {
