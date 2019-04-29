@@ -1,8 +1,10 @@
 package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealTo;
 
 import java.time.Month;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.time.LocalDateTime.of;
@@ -42,5 +44,9 @@ public class MealTestData {
 
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
+    }
+
+    public static void assertMatchById(Iterable<MealTo> actual, Iterable<Meal> expected) {
+        assertThat(actual).usingComparatorForElementFieldsWithNames(Integer::compareTo, "id");
     }
 }
